@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"strconv"
 
 	"github.com/charmbracelet/bubbles/table"
 	tea "github.com/charmbracelet/bubbletea"
@@ -52,6 +53,7 @@ func main() {
 		{Title: "City", Width: 10},
 		{Title: "Country", Width: 10},
 		{Title: "Population", Width: 10},
+		{Title: "Country Escaped", Width: 50},
 	}
 
 	rows := []table.Row{
@@ -155,6 +157,12 @@ func main() {
 		{"98", "Rome", "Italy", "4,297,877"},
 		{"99", "Shijiazhuang", "China", "4,285,135"},
 		{"100", "Montreal", "Canada", "4,276,526"},
+	}
+
+	for i := range rows {
+		color := lipgloss.Color(strconv.Itoa(i))
+		rows[i][2] = lipgloss.NewStyle().Foreground(color).Render(rows[i][2])
+		rows[i] = append(rows[i], fmt.Sprintf("%#v", rows[i][2]))
 	}
 
 	t := table.New(
